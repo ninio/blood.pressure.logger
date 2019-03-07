@@ -1,23 +1,25 @@
 import React from 'react';
 
-import { StyleSheet, Text, View, ScrollView, ToolbarAndroid, Button } from 'react-native';
-
+import { StyleSheet, Text, View, ToolbarAndroid, FlatList } from 'react-native';
+import { ActionButton } from 'react-native-material-ui';
+import { Ionicons } from '@expo/vector-icons';
 
 import MeasurementListItem from './../components/MeasurementListItem.js';
+// import { FlatList } from 'react-native-gesture-handler';
 
 export default class Home extends React.Component {
 	render() {
 		let { measurements } = this.props;
-		let measurementsList = [];
+		// let measurementsList = [];
 
-		if( measurements ) {
-			measurementsList = this.props.measurements.map( measurement =>
-					( <MeasurementListItem key={ measurement.date } { ...measurement } /> )
-			);
-		}
-		else {
-			console.log( 'Problemos' );
-		}
+		// if( measurements ) {
+		// 	measurementsList = this.props.measurements.map( measurement =>
+		// 			( <MeasurementListItem key={ measurement.date } { ...measurement } /> )
+		// 	);
+		// }
+		// else {
+		// 	console.log( 'Problemos' );
+		// }
 
 
 		return (
@@ -35,13 +37,24 @@ export default class Home extends React.Component {
 							}
 						]}
 					/>
-				<ScrollView style={styles.container}>
-					{ measurementsList }
-				</ScrollView>
+				<View style={styles.container}>
+					{ measurements?
+						(<FlatList
+							data={ measurements.map( measurement => ({ key: measurement.date, ...measurement }) ) }
+							renderItem={ measurement => ( <MeasurementListItem { ...measurement } /> ) }
+							ListEmptyComponent={ () => <Text>No measurements</Text> }
+							style={ styles.list } />)
+						: null  }
+				</View>
 				<View>
-					<Button onPress={ this.props.onPressAddMeasurement }
-						title="Add"
-						color="#841584"
+					<ActionButton
+						onPress={ this.props.onPressAddMeasurement }
+						style={{
+							container: {
+								backgroundColor:"#841584"
+							}
+						}}
+						icon={ <Ionicons name="md-add" size={32} color="white" /> }
 						accessibilityLabel="Add a measurement" />
 				</View>
 			</View>
@@ -55,10 +68,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		// backgroundColor: '#aff',
-		paddingTop: 16,
-		paddingLeft: 16,
 		// alignItems: 'center',
 		// justifyContent: 'center',
+	},
+	list: {
+		paddingTop: 16,
+		paddingLeft: 16,
+		paddingBottom: 48,
 	},
 	toolbar: {
 		backgroundColor: '#aa3333',

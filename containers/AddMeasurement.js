@@ -2,14 +2,29 @@ import React from 'react';
 
 import { StyleSheet, Text, View, ToolbarAndroid, Button, TextInput } from 'react-native';
 
+import { ActionButton } from 'react-native-material-ui';
+import { Ionicons } from '@expo/vector-icons';
+
+import PickerRange from './../components/PickerRange.js';
 
 import MeasurementListItem from './../components/MeasurementListItem.js';
+
+const initialMeasurements = {
+	low: 80,
+	high: 120,
+	pulse: 60
+};
 
 export default class AddMeasurement extends React.Component {
 	constructor( props ) {
 		// Props are super
 		super( props );
+
+		this.state = {
+			...initialMeasurements
+		}
 	}
+
 
 	render() {
 		return (
@@ -28,30 +43,51 @@ export default class AddMeasurement extends React.Component {
 						]}
 					/>
 				<View style={styles.container}>
-					<TextInput
-						style={{height: 40}}
-						placeholder="Low"
-						onChangeText={(low) => this.setState({low})}
-						/>
-					<TextInput
-						style={{height: 40}}
-						placeholder="High"
-						onChangeText={(high) => this.setState({high})}
-						/>
-					<TextInput
-						style={{height: 40}}
-						placeholder="Pulse"
-						onChangeText={(pulse) => this.setState({pulse})}
-						/>
+					<Text>Low</Text>
+					<PickerRange
+						onValueChange={ ( value ) =>
+							this.setState( { low: value } )
+						}
+						start={ 10 }
+						end={ 200 }
+						value={ this.state.low } />
+					<Text>High</Text>
+					<PickerRange
+						onValueChange={ ( value ) =>
+							this.setState( { high: value } )
+						}
+						start={ 10 }
+						end={ 200 }
+						value={ this.state.high } />
+					<Text>Pulse</Text>
+					<PickerRange
+						onValueChange={ ( value ) =>
+							this.setState( { pulse: value } )
+						}
+						start={ 10 }
+						end={ 200 }
+						value={ this.state.pulse } />
 				</View>
 				<View>
-					<Button onPress={ () => {
+					<ActionButton
+						onPress={ () => {
+							const { low, high, pulse } = this.state;
+							this.props.onConfirm({ low, high, pulse });
+						} }
+						style={{
+							container: {
+								backgroundColor:"#009688"
+							}
+						}}
+						icon={ <Ionicons name="md-checkmark" size={32} color="white" /> }
+						accessibilityLabel="Add a measurement" />
+					{/* <Button onPress={ () => {
 						const { low, high, pulse } = this.state;
 						this.props.onConfirm({ low, high, pulse });
 					} }
 						title="Confirm"
 						color="#841584"
-						accessibilityLabel="Add a measurement" />
+						accessibilityLabel="Add a measurement" /> */}
 				</View>
 			</View>
 		);
