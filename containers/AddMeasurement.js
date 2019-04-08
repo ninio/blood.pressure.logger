@@ -71,6 +71,7 @@ export default class AddMeasurement extends React.Component {
 				<View>
 					<ActionButton
 						onPress={ () => {
+							console.log( this.state );
 							const { low, high, pulse } = this.state;
 							this.props.onConfirm({ low, high, pulse });
 						} }

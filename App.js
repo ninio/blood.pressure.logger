@@ -17,7 +17,7 @@ export default class App extends React.Component {
 
     this.state = {
       currentView: 'home',
-      measurements: null
+      measurements: []
     };
 
     this.onPressAddMeasurement = this.onPressAddMeasurement.bind( this )

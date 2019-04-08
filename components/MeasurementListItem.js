@@ -5,22 +5,22 @@ import { DateTime } from 'luxon';
 
 export default class MeasurementListItem extends React.Component {
 	render () {
-		let { measurementData } = this.props;
+		let { measurementData, date } = this.props.item;
 
 		if( measurementData ) {
 			return (
 				<View style={{ flex: 1 }}>
 					<Text style={{ color: '#09c' }}>
-						{ DateTime.fromISO( this.props.date ).toLocaleString() }
+						{ DateTime.fromISO( date ).toLocaleString() }
 					</Text>
 					<Text>
-						{ this.props.measurementData.low }
+						{ measurementData.low }
 					</Text>
 					<Text>
-						{ this.props.measurementData.high }
+						{ measurementData.high }
 					</Text>
 					<Text>
-						{ this.props.measurementData.pulse }
+						{ measurementData.pulse }
 					</Text>
 				</View>
 			);
