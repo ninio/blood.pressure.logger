@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { StyleSheet, Text, View, ToolbarAndroid, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View  } from 'react-native';
 
-import { ActionButton } from 'react-native-material-ui';
+import { Toolbar, ActionButton } from 'react-native-material-ui';
 import { Ionicons } from '@expo/vector-icons';
 
 import PickerRange from './../components/PickerRange.js';
-
-import MeasurementListItem from './../components/MeasurementListItem.js';
 
 const initialMeasurements = {
 	low: 80,
@@ -29,19 +27,18 @@ export default class AddMeasurement extends React.Component {
 	render() {
 		return (
 			<View style={{ paddingTop: Expo.Constants.statusBarHeight, flex: 1 }}>
-				<ToolbarAndroid
-					style={ styles.toolbar }
-					title="Blood Pressure Logger"
-					navIcon={ require( './../img/heart-meter.svg' ) }
-					onActionSelected={ this.props.onActionSelected }
-					titleColor= '#fff'
-					actions = {[
-							{
-								title: 'Log out',
-								show: 'never'
-							}
-						]}
-					/>
+			<Toolbar
+				style={ styles.toolbar }
+				leftElement="arrow-back"
+				centerElement="Add Measurement"
+				onRightElementPress={ (label) => { console.log(label) }}
+				onLeftElementPress={ this.props.onBack }
+				style={ {
+					container: {
+						backgroundColor: '#aa3333'
+					}
+				} }
+				/>
 				<View style={styles.container}>
 					<Text>Low</Text>
 					<PickerRange
@@ -82,13 +79,6 @@ export default class AddMeasurement extends React.Component {
 						}}
 						icon={ <Ionicons name="md-checkmark" size={32} color="white" /> }
 						accessibilityLabel="Add a measurement" />
-					{/* <Button onPress={ () => {
-						const { low, high, pulse } = this.state;
-						this.props.onConfirm({ low, high, pulse });
-					} }
-						title="Confirm"
-						color="#841584"
-						accessibilityLabel="Add a measurement" /> */}
 				</View>
 			</View>
 		);
