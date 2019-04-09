@@ -7,9 +7,44 @@ import { Ionicons } from '@expo/vector-icons';
 import MeasurementListItem from './../components/MeasurementListItem.js';
 // import { FlatList } from 'react-native-gesture-handler';
 
+import storage from './../middleware/localStorage.js';
+
+
 export default class Home extends React.Component {
+	static navigationOptions = {
+		title: 'BloodPressureLogger',
+		headerStyle: {
+			backgroundColor: '#aa3333',
+		},
+		headerTintColor: '#fff',
+		headerTitleStyle: {
+			color: '#fff'
+		}
+	}
+
+	static getDerivedStateFromProps ( props ) {
+		let { getParam } = props.navigation;
+		let measurements = getParam( 'measurements' );
+		if( measurements ) {
+			return {
+				measurements
+			}
+		}
+
+		return null;
+	}
+
+	constructor ( props ) {
+		// Props are super
+		super( props );
+
+		this.state = {
+			measurements: []
+		}
+	}
 	render() {
-		let { measurements } = this.props;
+		let { measurements } = this.state;
+		let { navigate } = this.props.navigation;
 		// let measurementsList = [];
 
 		// if( measurements ) {
@@ -24,7 +59,7 @@ export default class Home extends React.Component {
 
 		return (
 			<View style={{ paddingTop: Expo.Constants.statusBarHeight, flex: 1 }}>
-				<ToolbarAndroid
+				{/* <ToolbarAndroid
 					style={ styles.toolbar }
 					title="Blood Pressure Logger"
 					navIcon={ require( './../img/heart-meter.svg' ) }
@@ -36,7 +71,7 @@ export default class Home extends React.Component {
 								show: 'never'
 							}
 						]}
-					/>
+					/> */}
 				<View style={styles.container}>
 					{ measurements?
 						(<FlatList
@@ -48,7 +83,9 @@ export default class Home extends React.Component {
 				</View>
 				<View>
 					<ActionButton
-						onPress={ this.props.onPressAddMeasurement }
+						onPress={ () => { navigate( 'AddMeasurement', {
+							measurements
+						} ) } }
 						style={{
 							container: {
 								backgroundColor:"#841584"
@@ -59,6 +96,22 @@ export default class Home extends React.Component {
 				</View>
 			</View>
 		);
+	}
+
+	componentDidMount() {
+		storage.getItem( 'storedMeasurements' )
+			.then( data => {
+				// console.log( data );
+				if( data ) {
+					this.setState({
+						measurements: data
+					});
+				}
+			} )
+			.catch( err => {
+				console.log( '** Problemos **' );
+				console.log( err );
+			} );
 	}
 }
 

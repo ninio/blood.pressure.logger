@@ -7,6 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 import PickerRange from './../components/PickerRange.js';
 
+import storage from './../middleware/localStorage.js';
+
+
 const initialMeasurements = {
 	low: 80,
 	high: 120,
@@ -14,6 +17,17 @@ const initialMeasurements = {
 };
 
 export default class AddMeasurement extends React.Component {
+	static navigationOptions = {
+		title: 'Add Measurement',
+		headerStyle: {
+			backgroundColor: '#aa3333',
+		},
+		headerTintColor: '#fff',
+		headerTitleStyle: {
+			color: '#fff'
+		}
+	}
+
 	constructor( props ) {
 		// Props are super
 		super( props );
@@ -21,13 +35,35 @@ export default class AddMeasurement extends React.Component {
 		this.state = {
 			...initialMeasurements
 		}
+
+		this.onConfirmAdd = this.onConfirmAdd.bind( this ) ;
+	}
+
+	onConfirmAdd ( previousMeasurements, { low, high, pulse }) {
+		let now = new Date();
+		let measurements = [ ...previousMeasurements, {
+			id: previousMeasurements.length,
+			date: now.toISOString(),
+			measurementData: { low, high, pulse }
+		} ];
+
+		// console.log( now.getTimezoneOffset() / 60 );
+
+		// this.setState({
+		// 	measurements,
+		// 	currentView: 'home'
+		// });
+
+		storage.setItem( 'storedMeasurements', measurements );
+
+		return measurements;
 	}
 
 
 	render() {
 		return (
 			<View style={{ paddingTop: Expo.Constants.statusBarHeight, flex: 1 }}>
-			<Toolbar
+			{/* <Toolbar
 				style={ styles.toolbar }
 				leftElement="arrow-back"
 				centerElement="Add Measurement"
@@ -38,7 +74,7 @@ export default class AddMeasurement extends React.Component {
 						backgroundColor: '#aa3333'
 					}
 				} }
-				/>
+				/> */}
 				<View style={styles.container}>
 					<Text>Low</Text>
 					<PickerRange
@@ -68,9 +104,16 @@ export default class AddMeasurement extends React.Component {
 				<View>
 					<ActionButton
 						onPress={ () => {
-							console.log( this.state );
-							const { low, high, pulse } = this.state;
-							this.props.onConfirm({ low, high, pulse });
+							// console.log( this.props )
+							let { navigation } = this.props;
+							let { navigate, getParam } = navigation;
+							let newMeasurements = this.onConfirmAdd( getParam( 'measurements' ), this.state );
+							// console.log( this.state );
+							// const { low, high, pulse } = this.state;
+							navigate( 'Home', {
+								measurements: newMeasurements
+							} );
+							// this.props.onConfirm({ low, high, pulse });
 						} }
 						style={{
 							container: {

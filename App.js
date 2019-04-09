@@ -5,33 +5,45 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 import MeasurementListItem from './components/MeasurementListItem.js';
 
-import storage from './middleware/localStorage.js';
+// import storage from './middleware/localStorage.js';
 
 import Home from './containers/Home.js';
 import AddMeasurement from './containers/AddMeasurement.js';
+
+const AppNavigator = createStackNavigator({
+	Home: {
+		screen: Home
+	},
+	AddMeasurement: {
+		screen: AddMeasurement
+	}
+});
+
+const AppContainer = createAppContainer( AppNavigator );
 
 export default class App extends React.Component {
 	constructor ( props ) {
 		// Props are super
 		super( props );
 
-		this.state = {
-			currentView: 'home',
-			measurements: []
-		};
+		// this.state = {
+		// 	// currentView: 'home',
+		// 	measurements: []
+		// };
 
-		this.onPressAddMeasurement = this.onPressAddMeasurement.bind( this )
-		this.onActionSelected = this.onActionSelected.bind( this )
-		this.onConfirmAdd = this.onConfirmAdd.bind( this )
+		// this.onPressAddMeasurement = this.onPressAddMeasurement.bind( this )
+		// this.onActionSelected = this.onActionSelected.bind( this )
+		// this.onConfirmAdd = this.onConfirmAdd.bind( this )
 	}
 
 	render() {
-		let { measurements } = this.state;
+		// let { measurements } = this.state;
 		// let measurementsList = [];
-		let currentView;
+		// let currentView;
 
 
-		switch( this.state.currentView ) {
+
+		/* switch( this.state.currentView ) {
 			case 'add-measurement' :
 				currentView = (
 					<AddMeasurement
@@ -50,26 +62,27 @@ export default class App extends React.Component {
 						onActionSelected={ this.onActionSelected }
 						/>
 				);
-		}
+		} */
 
 		return (
 			<View style={{ flex: 1 }}>
-				{ currentView }
+				{/* { currentView } */}
+				<AppContainer />
 			</View>
 			);
 	}
-	onActionSelected ( action ) {
+	/* onActionSelected ( action ) {
 		storage.setItem( 'storedMeasurements', [] );
 		console.log( action );
-	}
+	} */
 
-	onPressAddMeasurement (  ) {
-		this.setState({
-			currentView: 'add-measurement'
-		});
-	}
+	// onPressAddMeasurement (  ) {
+	// 	this.setState({
+	// 		currentView: 'add-measurement'
+	// 	});
+	// }
 
-	onConfirmAdd ({ low, high, pulse }) {
+	/* onConfirmAdd ({ low, high, pulse }) {
 		let now = new Date();
 		let measurements = [ ...this.state.measurements, {
 			id: this.state.measurements.length,
@@ -85,21 +98,21 @@ export default class App extends React.Component {
 		});
 
 		storage.setItem( 'storedMeasurements', measurements );
-	}
+	} */
 
-	componentDidMount() {
-		storage.getItem( 'storedMeasurements' )
-		.then( data => {
-			console.log( data );
-			if( data ) {
-				this.setState({
-					measurements: data
-				});
-			}
-		} )
-		.catch( err => {
-			console.log( '** Problemos **' );
-			console.log( err );
-		} );
-	}
+	// componentDidMount() {
+	// 	storage.getItem( 'storedMeasurements' )
+	// 	.then( data => {
+	// 		console.log( data );
+	// 		if( data ) {
+	// 			this.setState({
+	// 				measurements: data
+	// 			});
+	// 		}
+	// 	} )
+	// 	.catch( err => {
+	// 		console.log( '** Problemos **' );
+	// 		console.log( err );
+	// 	} );
+	// }
 }
