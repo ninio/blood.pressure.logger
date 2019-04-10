@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { StyleSheet, Text, View  } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Toolbar, ActionButton } from 'react-native-material-ui';
+import { ActionButton } from 'react-native-material-ui';
 import { Ionicons } from '@expo/vector-icons';
 
 import PickerRange from './../components/PickerRange.js';
@@ -28,7 +28,7 @@ export default class AddMeasurement extends React.Component {
 		}
 	}
 
-	constructor( props ) {
+	constructor ( props ) {
 		// Props are super
 		super( props );
 
@@ -36,10 +36,10 @@ export default class AddMeasurement extends React.Component {
 			...initialMeasurements
 		}
 
-		this.onConfirmAdd = this.onConfirmAdd.bind( this ) ;
+		this.onConfirmAdd = this.onConfirmAdd.bind( this );
 	}
 
-	onConfirmAdd ( previousMeasurements, { low, high, pulse }) {
+	onConfirmAdd ( previousMeasurements, { low, high, pulse } ) {
 		let now = new Date();
 		let measurements = [ ...previousMeasurements, {
 			id: previousMeasurements.length,
@@ -47,35 +47,16 @@ export default class AddMeasurement extends React.Component {
 			measurementData: { low, high, pulse }
 		} ];
 
-		// console.log( now.getTimezoneOffset() / 60 );
-
-		// this.setState({
-		// 	measurements,
-		// 	currentView: 'home'
-		// });
-
 		storage.setItem( 'storedMeasurements', measurements );
 
 		return measurements;
 	}
 
 
-	render() {
+	render () {
 		return (
-			<View style={{ paddingTop: Expo.Constants.statusBarHeight, flex: 1 }}>
-			{/* <Toolbar
-				style={ styles.toolbar }
-				leftElement="arrow-back"
-				centerElement="Add Measurement"
-				onRightElementPress={ (label) => { console.log(label) }}
-				onLeftElementPress={ this.props.onBack }
-				style={ {
-					container: {
-						backgroundColor: '#aa3333'
-					}
-				} }
-				/> */}
-				<View style={styles.container}>
+			<View style={ { flex: 1 } }>
+				<View style={ styles.container }>
 					<Text>Low</Text>
 					<PickerRange
 						onValueChange={ ( value ) =>
@@ -104,23 +85,19 @@ export default class AddMeasurement extends React.Component {
 				<View>
 					<ActionButton
 						onPress={ () => {
-							// console.log( this.props )
 							let { navigation } = this.props;
 							let { navigate, getParam } = navigation;
 							let newMeasurements = this.onConfirmAdd( getParam( 'measurements' ), this.state );
-							// console.log( this.state );
-							// const { low, high, pulse } = this.state;
 							navigate( 'Home', {
 								measurements: newMeasurements
 							} );
-							// this.props.onConfirm({ low, high, pulse });
 						} }
-						style={{
+						style={ {
 							container: {
-								backgroundColor:"#009688"
+								backgroundColor: "#009688"
 							}
-						}}
-						icon={ <Ionicons name="md-checkmark" size={32} color="white" /> }
+						} }
+						icon={ <Ionicons name="md-checkmark" size={ 32 } color="white" /> }
 						accessibilityLabel="Add a measurement" />
 				</View>
 			</View>
@@ -128,11 +105,10 @@ export default class AddMeasurement extends React.Component {
 	}
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
-		paddingTop: 16,
 		paddingLeft: 16,
 	},
 	toolbar: {
@@ -140,4 +116,4 @@ const styles = StyleSheet.create({
 		height: 56,
 		alignSelf: 'stretch',
 	}
-});
+} );

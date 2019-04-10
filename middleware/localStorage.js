@@ -1,11 +1,11 @@
 import { AsyncStorage } from 'react-native';
 
-export default storage = {
+const storage = {
 	setItem: async ( key, data ) => {
 		try {
 			await AsyncStorage.setItem( key, JSON.stringify( data ) );
 		}
-		catch( error ) {
+		catch ( error ) {
 			// Problemos
 			return 'Problemos saving';
 		}
@@ -14,7 +14,7 @@ export default storage = {
 		try {
 			let rawData = await AsyncStorage.getItem( key );
 
-			if( rawData !== null ) {
+			if ( rawData !== null ) {
 				return JSON.parse( rawData );
 			}
 
@@ -23,9 +23,11 @@ export default storage = {
 				console.log( 'Raw Data is not JSON' );
 			}
 		}
-		catch( error ) {
+		catch ( error ) {
 			// Problemos
 			return null;
 		}
 	}
 }
+
+export default storage;
