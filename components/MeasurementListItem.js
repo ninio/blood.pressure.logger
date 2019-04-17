@@ -15,15 +15,15 @@ export default class MeasurementListItem extends React.Component {
 					<View style={ styles.measurementDetails }>
 						<View style={ styles.measurementData }>
 							<View style={ styles.measurementLow }>
-								<Text>low </Text>
-								<Text style={ styles.measurementLowText }>
-									{ measurementData.low }
+								<Text>SAP </Text>
+								<Text style={ styles.measurementHighText }>
+									{ measurementData.high }
 								</Text>
 							</View>
 							<View style={ styles.measurementHigh }>
-								<Text>high </Text>
-								<Text style={ styles.measurementHighText }>
-									{ measurementData.high }
+								<Text>DAP </Text>
+								<Text style={ styles.measurementLowText }>
+									{ measurementData.low }
 								</Text>
 							</View>
 							<View style={ styles.measurementPulse }>
@@ -59,10 +59,11 @@ const styles = StyleSheet.create( {
 		paddingBottom: 12
 	},
 	measurementData: {
-		flex: 5,
+		flex: 4,
 		flexDirection: 'row'
 	},
 	measurementDateText: {
+		fontSize: 12,
 		color: '#999',
 		textAlign: 'right'
 	},

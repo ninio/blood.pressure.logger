@@ -57,22 +57,22 @@ export default class AddMeasurement extends React.Component {
 		return (
 			<View style={ { flex: 1 } }>
 				<View style={ styles.container }>
-					<Text>Low</Text>
-					<PickerRange
-						onValueChange={ ( value ) =>
-							this.setState( { low: value } )
-						}
-						start={ 10 }
-						end={ 200 }
-						value={ this.state.low } />
-					<Text>High</Text>
+					<Text>SAP</Text>
 					<PickerRange
 						onValueChange={ ( value ) =>
 							this.setState( { high: value } )
 						}
-						start={ 10 }
-						end={ 200 }
+						start={ 30 }
+						end={ 300 }
 						value={ this.state.high } />
+					<Text>DAP</Text>
+					<PickerRange
+						onValueChange={ ( value ) =>
+							this.setState( { low: value } )
+						}
+						start={ 30 }
+						end={ 200 }
+						value={ this.state.low } />
 					<Text>Pulse</Text>
 					<PickerRange
 						onValueChange={ ( value ) =>
