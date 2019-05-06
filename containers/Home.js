@@ -5,6 +5,7 @@ import { ActionButton } from 'react-native-material-ui';
 import { Ionicons } from '@expo/vector-icons';
 
 import MeasurementListItem from './../components/MeasurementListItem.js';
+import LoadingIndicator from './../components/LoadingIndicator.js';
 
 import storage from './../middleware/localStorage.js';
 
@@ -38,7 +39,7 @@ export default class Home extends React.Component {
 		super( props );
 
 		this.state = {
-			measurements: []
+			measurements: null
 		}
 	}
 	render () {
@@ -55,7 +56,7 @@ export default class Home extends React.Component {
 							renderItem={ measurement => ( <MeasurementListItem { ...measurement } /> ) }
 							ListEmptyComponent={ () => <Text>No measurements</Text> }
 						/> )
-						: null }
+						: <LoadingIndicator /> }
 				</View>
 				<View>
 					<ActionButton
