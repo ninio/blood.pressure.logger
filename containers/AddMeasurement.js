@@ -110,6 +110,7 @@ const styles = StyleSheet.create( {
 		flex: 1,
 		backgroundColor: '#fff',
 		paddingLeft: 16,
+		paddingTop: 16
 	},
 	toolbar: {
 		backgroundColor: '#aa3333',
