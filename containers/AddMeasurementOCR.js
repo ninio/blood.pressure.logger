@@ -83,7 +83,7 @@ export default class AddMeasurement extends React.Component {
 		} else {
 			return (
 				<View style={ { flex: 1 } }>
-					<View style={ styles.container }>
+					<View style={ { flex: 1 } }>
 						<Camera style={ { flex: 1 } } type={ this.state.type }>
 							<View
 								style={ {
