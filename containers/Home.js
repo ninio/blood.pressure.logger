@@ -61,7 +61,7 @@ export default class Home extends React.Component {
 				<View>
 					<ActionButton
 						onPress={ () => {
-							navigate( 'AddMeasurement', {
+							navigate( 'AddMeasurementOCR', {
 								measurements
 							} )
 						} }

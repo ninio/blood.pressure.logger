@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Button, Text, View } from 'react-native';
+
+import { ImagePicker } from 'expo';
 
 import { ActionButton } from 'react-native-material-ui';
 import { Ionicons } from '@expo/vector-icons';
-
-import PickerRange from './../components/PickerRange.js';
 
 import storage from './../middleware/localStorage.js';
 
@@ -32,10 +32,6 @@ export default class AddMeasurement extends React.Component {
 		// Props are super
 		super( props );
 
-		this.state = {
-			...initialMeasurements
-		}
-
 		this.onConfirmAdd = this.onConfirmAdd.bind( this );
 	}
 
@@ -53,34 +49,39 @@ export default class AddMeasurement extends React.Component {
 	}
 
 
+	pickImage = async () => {
+		let pickedImage = await ImagePicker.launchImageLibraryAsync( {
+			mediaTypes: 'Images',
+			quality: 1,
+			base64: true,
+
+		} );
+
+		if ( !pickedImage.cancelled ) {
+			let imageData = pickedImage.base64;
+			// TODO: detect measurement
+		}
+	}
+
 	render () {
 		return (
 			<View style={ { flex: 1 } }>
 				<View style={ styles.container }>
-					<Text>SAP</Text>
-					<PickerRange
-						onValueChange={ ( value ) =>
-							this.setState( { high: value } )
-						}
-						start={ 30 }
-						end={ 300 }
-						value={ this.state.high } />
-					<Text>DAP</Text>
-					<PickerRange
-						onValueChange={ ( value ) =>
-							this.setState( { low: value } )
-						}
-						start={ 30 }
-						end={ 200 }
-						value={ this.state.low } />
-					<Text>Pulse</Text>
-					<PickerRange
-						onValueChange={ ( value ) =>
-							this.setState( { pulse: value } )
-						}
-						start={ 10 }
-						end={ 200 }
-						value={ this.state.pulse } />
+					<Button
+						onPress={ this.pickImage }
+						title="Take a picture of your measurement" ></Button>
+				</View>
+				<View>
+					<Button
+						onPress={ () => {
+							let { navigation } = this.props;
+							let { navigate, getParam } = navigation;
+
+							navigate( 'AddMeasurement', {
+								measurements: getParam( 'measurements' )
+							} );
+						} }
+						title="Add Manually" />
 				</View>
 				<View>
 					<ActionButton
