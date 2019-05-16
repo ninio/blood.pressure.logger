@@ -2,7 +2,7 @@ import React from 'react';
 
 import { TouchableOpacity, WebView, StyleSheet, Button, Text, View } from 'react-native';
 
-import { Camera, Permissions } from 'expo';
+import { Camera, Permissions, ImagePicker } from 'expo';
 // import { ImagePicker } from 'expo';
 
 import { ActionButton } from 'react-native-material-ui';
@@ -23,6 +23,7 @@ function resetImage() {
   base64 = "";
 }
 function addImageData(data) {
+	writeResult('addingData: ' + base64.substr( 6 ));
   base64 = base64 + data;
 }
 function writeResult(text) {
@@ -37,7 +38,8 @@ function run(width, height) {
 
   setTimeout(function () {
     var theimage = document.getElementById('theimage');
-    writeResult('loading: ' + theimage);
+    writeResult('loading: ' + base64);
+    // writeResult('loading: ' + theimage);
     Tesseract.recognize(theimage)
          .progress(function  (p) { writeResult('progress ' + JSON.stringify(p))    })
          .catch(function (e) {  writeResult('error ' + JSON.stringify(e)) })
@@ -99,13 +101,26 @@ export default class AddMeasurement extends React.Component {
 	pickImage = async () => {
 		let pickedImage = await ImagePicker.launchImageLibraryAsync( {
 			mediaTypes: 'Images',
-			quality: 1,
+			quality: 0,
 			base64: true,
-
 		} );
 
 		if ( !pickedImage.cancelled ) {
-			let imageData = pickedImage.base64;
+			let photo = pickedImage;
+
+			this.webview.injectJavaScript( 'resetImage()' );
+
+			let data = "data:image/jpg;base64," + photo.base64;
+			let index = 0;
+			const BUFFER_SIZE = 10000;
+			while ( index < data.length ) {
+				this.webview.injectJavaScript( 'addImageData("' + data.substring( index, Math.min( index + BUFFER_SIZE, data.length ) ) + '")' );
+				index += BUFFER_SIZE;
+			}
+			// console.log( { width: photo.width, height: photo.height } )
+			setTimeout( () => {
+				this.webview.injectJavaScript( 'run(' + photo.width + ', ' + photo.height + ')' );
+			}, 5000 );
 			// TODO: detect measurement
 		}
 	}
@@ -115,7 +130,7 @@ export default class AddMeasurement extends React.Component {
 			base64: true,
 			quality: 0,
 		} );
-		//console.log(photo.base64.substring(0, 20));
+		// console.log( photo.base64.substring( 0, 20 ) );
 		//"data:image/jpg;base64,' + photo.base64 + '",
 		//' + photo.width + ', ' + photo.height + '
 		//this.webview.injectJavaScript('run("data:image/jpg;base64,' + photo.base64.substring(0, 20) + '", ' + photo.width + ', ' + photo.height + ')');
@@ -184,6 +199,18 @@ export default class AddMeasurement extends React.Component {
 									<Text
 										style={ { fontSize: 18, marginBottom: 10, color: 'white' } }>
 										{ ' ' }Take{ ' ' }
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={ {
+										flex: 0.1,
+										alignSelf: 'flex-end',
+										alignItems: 'center',
+									} }
+									onPress={ () => this.pickImage() }>
+									<Text
+										style={ { fontSize: 18, marginBottom: 10, color: 'white' } }>
+										{ ' ' }Select from gallery{ ' ' }
 									</Text>
 								</TouchableOpacity>
 							</View>
