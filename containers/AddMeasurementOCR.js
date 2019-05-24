@@ -10,7 +10,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 import storage from './../middleware/localStorage.js';
 
-
 const HTML = `
 <div id="thediv">yooo</div>
 <div id="imagediv">image here</div>
@@ -34,7 +33,7 @@ function writeResult(text) {
 function run(width, height) {
   width = 500;
   height = 500;
-  document.getElementById('imagediv').innerHTML = "<img id='theimage' src='" + base64 + "' width=" + width + " height=" + height + "/>";
+  document.getElementById('imagediv').innerHTML = "<img style="maxWidth: 40px; maxHeigh:40px" id='theimage' src='" + base64 + "' width=" + width + " height=" + height + "/>";
 
   setTimeout(function () {
     var theimage = document.getElementById('theimage');
@@ -141,6 +140,7 @@ export default class AddMeasurement extends React.Component {
 		let index = 0;
 		const BUFFER_SIZE = 10000;
 		while ( index < data.length ) {
+			console.log( 'Injecting' );
 			this.webview.injectJavaScript( 'addImageData("' + data.substring( index, Math.min( index + BUFFER_SIZE, data.length ) ) + '")' );
 			index += BUFFER_SIZE;
 		}
@@ -164,7 +164,7 @@ export default class AddMeasurement extends React.Component {
 							source={ { html: HTML } }
 							style={ { marginTop: 20, height: 30 } }
 						/>
-						<Camera style={ { flex: 1 } } type={ this.state.type }>
+						<Camera ref={ ref => { this.camera = ref; } } style={ { flex: 1 } } type={ this.state.type }>
 							<View
 								style={ {
 									flex: 1,
