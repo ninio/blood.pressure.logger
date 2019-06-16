@@ -28,7 +28,15 @@
     "android": {
       "permissions": [
         "CAMERA"
-      ]
-    }
+      ],
+      "package": "blood.pressure.logger",
+      "publishBundlePath": "android\\app\\src\\main\\assets\\shell-app.bundle",
+      "publishManifestPath": "android\\app\\src\\main\\assets\\shell-app-manifest.json"
+    },
+    "isDetached": true,
+    "detach": {
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.10.8-sdk32.0.0-bca0f957-de78-44c8-91ed-f3151372d79d.tar.gz"
+    },
+    "scheme": "exp8249be7927f84827b1711f6e1959976e"
   }
 }

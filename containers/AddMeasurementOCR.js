@@ -8,45 +8,10 @@ import { Camera, Permissions, ImagePicker } from 'expo';
 import { ActionButton } from 'react-native-material-ui';
 import { Ionicons } from '@expo/vector-icons';
 
+import RNTesseractOcr from 'react-native-tesseract-ocr';
+
 import storage from './../middleware/localStorage.js';
 
-const HTML = `
-<div id="thediv">yooo</div>
-<div id="imagediv">image here</div>
-
-<script src='https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js'></script>
-<script>
-var base64 = "";
-var output = "";
-function resetImage() {
-  base64 = "";
-}
-function addImageData(data) {
-	writeResult('addingData: ' + base64.substr( 6 ));
-  base64 = base64 + data;
-}
-function writeResult(text) {
-  output = output + '<br/>' + text;
-  document.getElementById('thediv').innerHTML = output;
-}
-
-function run(width, height) {
-  width = 500;
-  height = 500;
-  document.getElementById('imagediv').innerHTML = "<img style="maxWidth: 40px; maxHeigh:40px" id='theimage' src='" + base64 + "' width=" + width + " height=" + height + "/>";
-
-  setTimeout(function () {
-    var theimage = document.getElementById('theimage');
-    writeResult('loading: ' + base64);
-    // writeResult('loading: ' + theimage);
-    Tesseract.recognize(theimage)
-         .progress(function  (p) { writeResult('progress ' + JSON.stringify(p))    })
-         .catch(function (e) {  writeResult('error ' + JSON.stringify(e)) })
-         .then(function (result) { writeResult('result ' + JSON.stringify(result)) });
-  }, 500);
-}
-</script>
-`;
 
 const initialMeasurements = {
 	low: 80,
@@ -129,6 +94,19 @@ export default class AddMeasurement extends React.Component {
 			base64: true,
 			quality: 0,
 		} );
+
+		RNTesseractOcr.recognize( photo.uri, 'en', {} )
+			.then( ( result ) => {
+				this.setState( { ocrResult: result } );
+				console.log( "OCR Result: ", result );
+			} )
+			.catch( ( err ) => {
+				console.log( "OCR Error: ", err );
+			} )
+			.done();
+		//
+
+		return;
 		// console.log( photo.base64.substring( 0, 20 ) );
 		//"data:image/jpg;base64,' + photo.base64 + '",
 		//' + photo.width + ', ' + photo.height + '
