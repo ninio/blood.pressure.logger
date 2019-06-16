@@ -39,12 +39,17 @@ export default class Home extends React.Component {
 		super( props );
 
 		this.state = {
+			initialMeasurements: null,
 			measurements: null
 		}
 	}
 	render () {
-		let { measurements } = this.state;
+		let { measurements, initialMeasurements } = this.state;
 		let { navigate } = this.props.navigation;
+
+		if ( !measurements ) {
+			measurements = initialMeasurements
+		}
 
 		return (
 			<View style={ { flex: 1, backgroundColor: '#eee' } }>
@@ -82,8 +87,13 @@ export default class Home extends React.Component {
 			.then( data => {
 				if ( data ) {
 					this.setState( {
-						measurements: data
+						initialMeasurements: data
 					} );
+				}
+				else {
+					this.setState( {
+						initialMeasurements: []
+					} )
 				}
 			} )
 			.catch( err => {
