@@ -4,7 +4,7 @@ import { Picker } from 'react-native';
 
 import SwipePicker from './SwipePicker.js';
 
-export default ( { start, end, value, onValueChange } ) => {
+export default ( { start, end, initialValue, onValueChange, width, height } ) => {
 	let items = [];
 
 	for ( let i = start; i <= end; i++ ) {
@@ -16,29 +16,12 @@ export default ( { start, end, value, onValueChange } ) => {
 	return (
 		<SwipePicker
 			items={ items }
-			onChange={ ( index, value ) => onValueChange( value ) }
-			initialSelectedItem={ value }
+			onChange={ ( { index, item } ) => {
+				onValueChange( index + start )
+			} }
+			initialSelectedIndex={ initialValue - start }
+			width={ width }
+			height={ height }
 		/>
 	)
-}
-
-export class PickerRange extends React.Component {
-	render () {
-		let { start, end, value, onValueChange } = this.props;
-		let items = [];
-
-		for ( let i = start; i <= end; i++ ) {
-			items.push(
-				<Picker.Item key={ i } label={ i.toString() } value={ i } />
-			);
-		}
-
-		return (
-			<Picker
-				onValueChange={ onValueChange }
-				selectedValue={ value } >
-				{ items }
-			</Picker>
-		);
-	}
 }
