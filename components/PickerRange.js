@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { Picker } from 'react-native';
-
-import SwipePicker from './SwipePicker.js';
+import SwipePicker from 'react-native-swipe-picker';
 
 export default ( { start, end, initialValue, onValueChange, width, height } ) => {
 	let items = [];

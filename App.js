@@ -8,7 +8,7 @@ import AddMeasurement from './containers/AddMeasurement.js';
 
 const AppNavigator = createStackNavigator( {
 	Home: {
-		screen: AddMeasurement
+		screen: Home
 	},
 	AddMeasurement: {
 		screen: AddMeasurement
