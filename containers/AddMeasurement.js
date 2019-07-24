@@ -57,30 +57,42 @@ export default class AddMeasurement extends React.Component {
 		return (
 			<View style={ { flex: 1 } }>
 				<View style={ styles.container }>
-					<Text>SAP</Text>
-					<PickerRange
-						onValueChange={ ( value ) =>
-							this.setState( { high: value } )
-						}
-						start={ 30 }
-						end={ 300 }
-						value={ this.state.high } />
-					<Text>DAP</Text>
-					<PickerRange
-						onValueChange={ ( value ) =>
-							this.setState( { low: value } )
-						}
-						start={ 30 }
-						end={ 200 }
-						value={ this.state.low } />
+					<Text>SAP / DAP</Text>
+					<View style={ styles.sapDapPickersContainer }>
+						<PickerRange
+							onValueChange={ ( value ) =>
+								this.setState( { high: value } )
+							}
+							start={ 30 }
+							end={ 300 }
+							width={ 80 }
+							height={ 200 }
+							initialValue={ initialMeasurements.high } />
+						<View style={ styles.sapDapDivider }>
+							<Text>/</Text>
+						</View>
+						<PickerRange
+							onValueChange={ ( value ) =>
+								this.setState( { low: value } )
+							}
+							start={ 30 }
+							end={ 200 }
+							width={ 80 }
+							height={ 200 }
+							initialValue={ initialMeasurements.low } />
+					</View>
 					<Text>Pulse</Text>
-					<PickerRange
-						onValueChange={ ( value ) =>
-							this.setState( { pulse: value } )
-						}
-						start={ 10 }
-						end={ 200 }
-						value={ this.state.pulse } />
+					<View style={ styles.pulsePickerContainer }>
+						<PickerRange
+							onValueChange={ ( value ) =>
+								this.setState( { pulse: value } )
+							}
+							start={ 10 }
+							end={ 200 }
+							width={ 140 }
+							height={ 200 }
+							initialValue={ initialMeasurements.pulse } />
+					</View>
 				</View>
 				<View>
 					<ActionButton
@@ -116,5 +128,19 @@ const styles = StyleSheet.create( {
 		backgroundColor: '#aa3333',
 		height: 56,
 		alignSelf: 'stretch',
+	},
+	sapDapPickersContainer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	sapDapDivider: {
+		height: 200,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	pulsePickerContainer: {
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 } );

@@ -1,24 +1,25 @@
 import React from 'react';
-import { Picker } from 'react-native';
 
-export default class PickerRange extends React.Component {
-	render () {
-		let { start, end, value, onValueChange } = this.props;
-		let items = [];
+import SwipePicker from 'react-native-swipe-picker';
 
-		for ( let i = start; i <= end; i++) {
-			items.push(
-				<Picker.Item key={ i } label={ i.toString() } value={ i } />
-			 );
-		}
+export default ( { start, end, initialValue, onValueChange, width, height } ) => {
+	let items = [];
 
-		return (
-			<Picker
-				onValueChange={ onValueChange }
-				selectedValue={ value } >
-				{ items }
-			</Picker>
+	for ( let i = start; i <= end; i++ ) {
+		items.push(
+			{ value: i, label: i.toString() }
 		);
 	}
-}
 
+	return (
+		<SwipePicker
+			items={ items }
+			onChange={ ( { index, item } ) => {
+				onValueChange( index + start )
+			} }
+			initialSelectedIndex={ initialValue - start }
+			width={ width }
+			height={ height }
+		/>
+	)
+}
