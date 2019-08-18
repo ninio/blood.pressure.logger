@@ -60,7 +60,7 @@ export default class Home extends React.Component {
 						( <FlatList
 							data={ measurements.map( measurement => ( { key: measurement.date, ...measurement } ) ) }
 							renderItem={ measurement => ( <MeasurementListItem { ...measurement } /> ) }
-							ListEmptyComponent={ () => <NoMeasurements style={ styles.noMeasurements } /> }
+							ListEmptyComponent={ () => <NoMeasurements style={ styles.noMeasurements } headingStyle={ styles.noMeasurementsHeading } subtextStyle={ styles.noMeasurementsSubText } /> }
 						/> )
 						: <LoadingIndicator /> }
 				</View>
@@ -122,6 +122,12 @@ const styles = StyleSheet.create( {
 	noMeasurements: {
 		// alignItems: 'center',
 		paddingTop: 12,
-		paddingLeft: 16
+		paddingHorizontal: 16,
+	},
+	noMeasurementsHeading: {
+		fontSize: 24
+	},
+	noMeasurementsSubText: {
+		fontSize: 16
 	}
 } );

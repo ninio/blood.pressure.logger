@@ -7,7 +7,7 @@ import i18n from 'i18n-js';
 const translations = {
 	'bg-BG': {
 		noMeasurementsText: `Все още нямате измервания.`,
-		initialInstructionText: `Измерете кръвното си налягане и натиснете '+' за да го запишете.`
+		initialInstructionText: `Измерете кръвното си налягане и натиснете '+' за да го въведете.`
 	},
 	'en-US': {
 		noMeasurementsText: `You don't have any measurements yet.`,
@@ -24,9 +24,9 @@ i18n.translations = translations;
 i18n.locale = Localization.locale;
 
 
-export default ( { style } ) => (
+export default ( { style, headingStyle, subtextStyle } ) => (
 	<View style={ style }>
-		<Text>{ i18n.t( 'noMeasurementsText' ) }</Text>
-		<Text>{ i18n.t( 'initialInstructionText' ) }</Text>
+		<Text style={ headingStyle }>{ i18n.t( 'noMeasurementsText' ) }</Text>
+		<Text style={ subtextStyle }>{ i18n.t( 'initialInstructionText' ) }</Text>
 	</View>
 );
