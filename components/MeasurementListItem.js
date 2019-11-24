@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { Card } from 'react-native-material-ui';
 
+import i18n from 'i18n-js';
+
 import { DateTime } from 'luxon';
 
 export default class MeasurementListItem extends React.Component {
@@ -15,21 +17,19 @@ export default class MeasurementListItem extends React.Component {
 					<View style={ styles.measurementDetails }>
 						<View style={ styles.measurementData }>
 							<View style={ styles.measurementLow }>
-								<Text>SAP </Text>
+								<Text>{ i18n.t( 'SAP' ) } </Text>
 								<Text style={ styles.measurementHighText }>
 									{ measurementData.high }
 								</Text>
 							</View>
 							<View style={ styles.measurementHigh }>
-								<Text>DAP </Text>
+								<Text>{ i18n.t( 'DAP' ) } </Text>
 								<Text style={ styles.measurementLowText }>
 									{ measurementData.low }
 								</Text>
 							</View>
 							<View style={ styles.measurementPulse }>
-								<Text>
-									pulse
-								</Text>
+								<Text>{ i18n.t( 'pulse' ) } </Text>
 								<Text style={ styles.measurementPulseText }>
 									{ measurementData.pulse }
 								</Text>
@@ -68,16 +68,20 @@ const styles = StyleSheet.create( {
 		textAlign: 'right'
 	},
 	measurementLow: {
-		height: 64,
+		// height: 88,
+		minHeight: 64,
 		flex: 1,
 		paddingLeft: 12
 	},
 	measurementHigh: {
-		height: 64,
-		flex: 1
+		// height: 88,
+		minHeight: 64,
+		flex: 1,
+		paddingLeft: 12
 	},
 	measurementPulse: {
-		height: 64,
+		// height: 88,
+		minHeight: 64,
 		flex: 1
 	},
 	measurementLowText: {
