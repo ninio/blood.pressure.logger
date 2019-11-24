@@ -84,7 +84,7 @@ export default class AddMeasurement extends React.Component {
 							height={ 200 }
 							initialValue={ initialMeasurements.low } />
 					</View>
-					<Text>{ i18n.t( 'Pulse' ) }</Text>
+					<Text>{ i18n.t( 'pulse' ) }</Text>
 					<View style={ styles.pulsePickerContainer }>
 						<PickerRange
 							onValueChange={ ( value ) =>

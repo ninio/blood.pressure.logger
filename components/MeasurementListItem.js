@@ -37,7 +37,7 @@ export default class MeasurementListItem extends React.Component {
 						</View>
 						<View style={ styles.measurementDate }>
 							<Text style={ styles.measurementDateText }>
-								{ DateTime.fromISO( date ).toLocaleString() }
+								{ DateTime.fromISO( date ).toFormat( i18n.t( 'dateFormat' ) ) }
 							</Text>
 						</View>
 					</View>
