@@ -5,9 +5,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ActionButton } from 'react-native-material-ui';
 import { Ionicons } from '@expo/vector-icons';
 
+import i18n from 'i18n-js';
+
 import PickerRange from './../components/PickerRange.js';
 
 import storage from './../middleware/localStorage.js';
+
 
 
 const initialMeasurements = {
@@ -18,7 +21,7 @@ const initialMeasurements = {
 
 export default class AddMeasurement extends React.Component {
 	static navigationOptions = {
-		title: 'Add Measurement',
+		title: i18n.t( 'addMeasurementTitle' ),
 		headerStyle: {
 			backgroundColor: '#aa3333',
 		},
@@ -57,7 +60,7 @@ export default class AddMeasurement extends React.Component {
 		return (
 			<View style={ { flex: 1 } }>
 				<View style={ styles.container }>
-					<Text>SAP / DAP</Text>
+					<Text>{ i18n.t( 'SAP' ) } / { i18n.t( 'DAP' ) }</Text>
 					<View style={ styles.sapDapPickersContainer }>
 						<PickerRange
 							onValueChange={ ( value ) =>
@@ -81,7 +84,7 @@ export default class AddMeasurement extends React.Component {
 							height={ 200 }
 							initialValue={ initialMeasurements.low } />
 					</View>
-					<Text>Pulse</Text>
+					<Text>{ i18n.t( 'Pulse' ) }</Text>
 					<View style={ styles.pulsePickerContainer }>
 						<PickerRange
 							onValueChange={ ( value ) =>
