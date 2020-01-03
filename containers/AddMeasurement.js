@@ -11,8 +11,6 @@ import PickerRange from './../components/PickerRange.js';
 
 import storage from './../middleware/localStorage.js';
 
-
-
 const initialMeasurements = {
 	low: 80,
 	high: 120,
@@ -57,6 +55,16 @@ export default class AddMeasurement extends React.Component {
 
 
 	render () {
+		let { navigation } = this.props;
+		let { navigate, getParam } = navigation;
+
+		const measurements = getParam( 'measurements' );
+		let lastMeasurement = initialMeasurements;
+
+		if ( measurements.length ) {
+			lastMeasurement = measurements[ measurements.length - 1 ].measurementData;
+		}
+
 		return (
 			<View style={ { flex: 1 } }>
 				<View style={ styles.container }>
@@ -70,7 +78,7 @@ export default class AddMeasurement extends React.Component {
 							end={ 300 }
 							width={ 80 }
 							height={ 200 }
-							initialValue={ initialMeasurements.high } />
+							initialValue={ lastMeasurement.high } />
 						<View style={ styles.sapDapDivider }>
 							<Text>/</Text>
 						</View>
@@ -82,7 +90,7 @@ export default class AddMeasurement extends React.Component {
 							end={ 200 }
 							width={ 80 }
 							height={ 200 }
-							initialValue={ initialMeasurements.low } />
+							initialValue={ lastMeasurement.low } />
 					</View>
 					<Text>{ i18n.t( 'pulse' ) }</Text>
 					<View style={ styles.pulsePickerContainer }>
@@ -94,14 +102,12 @@ export default class AddMeasurement extends React.Component {
 							end={ 200 }
 							width={ 140 }
 							height={ 200 }
-							initialValue={ initialMeasurements.pulse } />
+							initialValue={ lastMeasurement.pulse } />
 					</View>
 				</View>
 				<View>
 					<ActionButton
 						onPress={ () => {
-							let { navigation } = this.props;
-							let { navigate, getParam } = navigation;
 							let newMeasurements = this.onConfirmAdd( getParam( 'measurements' ), this.state );
 							navigate( 'Home', {
 								measurements: newMeasurements
