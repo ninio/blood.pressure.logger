@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { StyleSheet, Text, View, ToolbarAndroid, FlatList } from 'react-native';
-import { ActionButton } from 'react-native-material-ui';
+import { ActionButton, Button } from 'react-native-material-ui';
 import { Ionicons } from '@expo/vector-icons';
 
 import MeasurementListItem from './../components/MeasurementListItem.js';
 import LoadingIndicator from './../components/LoadingIndicator.js';
 import NoMeasurements from './../components/NoMeasurements.js';
+import MeasurementsChart from './../components/MeasurementsChart';
 
 import storage from './../middleware/localStorage.js';
 
@@ -49,12 +50,13 @@ export default class Home extends React.Component {
 		super( props );
 
 		this.state = {
+			view: 'list', // 'list' or 'chart'
 			initialMeasurements: null,
 			measurements: null
 		}
 	}
 	render () {
-		let { measurements, initialMeasurements } = this.state;
+		let { measurements, initialMeasurements, view } = this.state;
 		let { navigate } = this.props.navigation;
 
 		if ( !measurements ) {
@@ -63,14 +65,25 @@ export default class Home extends React.Component {
 
 		return (
 			<View style={ { flex: 1, backgroundColor: '#eee' } }>
-
+				<View style={ styles.viewToggleContainer }>
+					<Button
+						primary={ view === 'list' }
+						text="List"
+						onPress={ () => this.setState( { view: 'list' } ) } />
+					<Button
+						primary={ view === 'chart' }
+						text="Chart"
+						onPress={ () => this.setState( { view: 'chart' } ) } />
+				</View>
 				<View style={ styles.container }>
 					{ measurements ?
-						( <FlatList
-							data={ measurements.map( measurement => ( { key: measurement.date, ...measurement } ) ) }
-							renderItem={ measurement => ( <MeasurementListItem { ...measurement } /> ) }
-							ListEmptyComponent={ () => <NoMeasurements style={ styles.noMeasurements } headingStyle={ styles.noMeasurementsHeading } subtextStyle={ styles.noMeasurementsSubText } /> }
-						/> )
+						( view === 'list' ?
+							<FlatList
+								data={ measurements.map( measurement => ( { key: measurement.date, ...measurement } ) ) }
+								renderItem={ measurement => ( <MeasurementListItem { ...measurement } /> ) }
+								ListEmptyComponent={ () => <NoMeasurements style={ styles.noMeasurements } headingStyle={ styles.noMeasurementsHeading } subtextStyle={ styles.noMeasurementsSubText } /> }
+							/>
+							: <MeasurementsChart measurements={ measurements } /> )
 						: <LoadingIndicator /> }
 				</View>
 				<View>
@@ -137,5 +150,9 @@ const styles = StyleSheet.create( {
 	},
 	noMeasurementsSubText: {
 		fontSize: 16
+	},
+	viewToggleContainer: {
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
 	}
 } );
