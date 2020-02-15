@@ -68,7 +68,7 @@ export default class AddMeasurement extends React.Component {
 		return (
 			<View style={ { flex: 1 } }>
 				<View style={ styles.container }>
-					<Text>{ i18n.t( 'SAP' ) } / { i18n.t( 'DAP' ) }</Text>
+					<Text style={ [ styles.pickerTitle, styles.sapDapPickersTitle ] }>{ i18n.t( 'SAP' ) }   /   { i18n.t( 'DAP' ) }</Text>
 					<View style={ styles.sapDapPickersContainer }>
 						<PickerRange
 							onValueChange={ ( value ) =>
@@ -92,7 +92,7 @@ export default class AddMeasurement extends React.Component {
 							height={ 200 }
 							initialValue={ lastMeasurement.low } />
 					</View>
-					<Text>{ i18n.t( 'pulse' ) }</Text>
+					<Text style={ [ styles.pickerTitle, styles.pulsePickerTitle ] }>{ i18n.t( 'pulse' ) }</Text>
 					<View style={ styles.pulsePickerContainer }>
 						<PickerRange
 							onValueChange={ ( value ) =>
@@ -130,7 +130,7 @@ const styles = StyleSheet.create( {
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
-		paddingLeft: 16,
+		paddingHorizontal: 16,
 		paddingTop: 16
 	},
 	toolbar: {
@@ -142,6 +142,20 @@ const styles = StyleSheet.create( {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	pickerTitle: {
+		textAlign: 'center',
+		padding: 10,
+		margin: 10
+	},
+	sapDapPickersTitle: {
+		textAlign: 'center',
+		padding: 10,
+		margin: 10
+	},
+	pulsePickerTitle: {
+		borderTopWidth: 1,
+		borderTopColor: '#3333',
 	},
 	sapDapDivider: {
 		height: 200,
